@@ -4,6 +4,7 @@ import { DeviceSettings, VideoPreview, useCall, useCallStateHooks } from '@strea
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 import Alert from './Alert';
+import Image from 'next/image';
 const MeetingSetup = ({ setIsSetupComplete }: { setIsSetupComplete: (value: boolean) => void }) => {
   const router = useRouter();
   const [isMicCam, setIsMicCam] = useState<boolean>();
@@ -18,6 +19,7 @@ const MeetingSetup = ({ setIsSetupComplete }: { setIsSetupComplete: (value: bool
   if (!call) {
     throw new Error("error")
   }
+  const meetingLink = `${process.env.NEXT_PUBLIC_BASE_URL}/meeting/${call?.id}`
 
 
   useEffect(() => {
@@ -79,6 +81,24 @@ const MeetingSetup = ({ setIsSetupComplete }: { setIsSetupComplete: (value: bool
       </div>
       <Button className="rounded bg-green-500 px-4 py-2.5 text-white duration-500 ease-in-out transition-colors hover:bg-green-600"
         onClick={() => { call?.join(); setIsSetupComplete(true); }} variant="default">Join meeting</Button>
+      <Button
+        className='bg-dark-4 px-6  ease-in-out transition-colors duration-300 hover:bg-blue-1'
+        variant="default"
+        onClick={() => {
+          navigator.clipboard.writeText(meetingLink);
+          toast({
+            status: "info",
+            isClosable: true,
+            position: "top",
+            title: "Meeting's Link copied!"
+          })
+        }}><Image
+          src="/icons/copy.svg"
+          alt="feature"
+          width={20}
+          height={20}
+        />
+        &nbsp; Copy Link & Share</Button>
     </div>
   )
 }
