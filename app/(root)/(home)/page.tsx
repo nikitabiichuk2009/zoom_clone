@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 import MeetingTypeList from '@/components/MeetingTypeList';
 import { format, toZonedTime } from 'date-fns-tz';
