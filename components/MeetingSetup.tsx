@@ -19,23 +19,9 @@ const MeetingSetup = ({ setIsSetupComplete }: { setIsSetupComplete: (value: bool
     throw new Error("error")
   }
 
-  if (callTimeNotArrived)
-    return (
-      <Alert
-        title={`Your Meeting has not started yet. It is scheduled for ${callStartsAt.toLocaleString()}`}
-      />
-    );
 
-  if (callHasEnded)
-    return (
-      <Alert
-        title="The call has been ended by the host"
-        iconUrl="/icons/call-ended.svg"
-      />
-    );
   useEffect(() => {
     let isActive = true;
-
     const toggleMedia = async () => {
       try {
         if (isMicCam) {
@@ -62,8 +48,22 @@ const MeetingSetup = ({ setIsSetupComplete }: { setIsSetupComplete: (value: bool
     return () => {
       isActive = false;  // Prevents the toast from firing after component unmounts
     };
-  }, [isMicCam, call?.microphone, call?.camera]);
+  }, [isMicCam, call?.microphone, call?.camera, toast]);
 
+  if (callTimeNotArrived)
+    return (
+      <Alert
+        title={`Your Meeting has not started yet. It is scheduled for ${callStartsAt.toLocaleString()}`}
+      />
+    );
+
+  if (callHasEnded)
+    return (
+      <Alert
+        title="The call has been ended by the host"
+        iconUrl="/icons/call-ended.svg"
+      />
+    );
 
   return (
     <div className='flex h-screen w-full flex-col items-center justify-center gap-3 text-white'>
