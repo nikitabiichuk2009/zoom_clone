@@ -1,14 +1,13 @@
 import React from 'react';
 import MeetingTypeList from '@/components/MeetingTypeList';
+import { format, toZonedTime } from 'date-fns-tz';
 const Home = () => {
-  // Create a new Date object
-  const now = new Date();
+  const nowUtc = new Date(); // Server-side UTC date
+  const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone; // Client-side time zone detection
+  const now = toZonedTime(nowUtc, timeZone);
 
-  // Format time in h:mm AM/PM format
-  const time = now.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
-
-  // Format date as "Weekday, Month day, Year" (e.g., "Saturday, May 6, 2024")
-  const date = now.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+  const time = format(now, 'h:mm aa', { timeZone });
+  const date = format(now, 'EEEE, MMMM d, yyyy', { timeZone });
 
   return (
     <section className='flex size-full flex-col gap-10 text-white'>
