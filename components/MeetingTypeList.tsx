@@ -179,6 +179,7 @@ const MeetingTypeList = () => {
               timeIntervals={15}
               timeCaption='time'
               dateFormat="MMMM d, yyyy h:mm aa"
+              minDate={new Date()}
               className='w-full bg-dark-3 p-2 focus:outline-none'
             />
           </div>
