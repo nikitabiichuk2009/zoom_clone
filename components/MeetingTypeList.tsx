@@ -85,6 +85,15 @@ const MeetingTypeList = () => {
         })
         return;
       }
+      if (values.dateTime < new Date()) {
+        toast({
+          title: 'You have scheduled the meeting for a past date. Please select a future date.',
+          status: 'warning',
+          isClosable: true,
+          position: "top",
+        })
+        return;
+      }
       const id = crypto.randomUUID();
       const call = client.call('default', id);
       if (!call) {
@@ -101,21 +110,12 @@ const MeetingTypeList = () => {
         }
       })
       setCallDetails(call);
-      if (values.dateTime > new Date()) {
-        toast({
-          title: 'The meeting was created.',
-          status: 'success',
-          isClosable: true,
-          position: "top",
-        })
-      } else {
-        toast({
-          title: 'You have scheduled the meeting for a past date. Please select a future date.',
-          status: 'warning',
-          isClosable: true,
-          position: "top",
-        })
-      }
+      toast({
+        title: 'The meeting was created.',
+        status: 'success',
+        isClosable: true,
+        position: "top",
+      }) 
     }
     catch (err) {
       console.log(err);
